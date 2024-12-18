@@ -44,7 +44,7 @@ func main() {
 		if command == "type" {
 			args := strings.Split(readLine, " ")[1]
 			args = args[:len(args)-1]
-			if isBuiltIN(args[:len(args)-1]) {
+			if isBuiltIN(args) {
 				fmt.Printf("%s is a shell builtin\n", args)
 			} else {
 				invalidCommand(args)
