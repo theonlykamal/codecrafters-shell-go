@@ -18,10 +18,6 @@ func isBuiltIN(command string) bool {
 
 }
 
-func invalidCommand(command string) {
-	fmt.Printf("%s: command not found\n", command)
-}
-
 func main() {
 
 	for {
@@ -32,6 +28,7 @@ func main() {
 		if err != nil {
 			return
 		}
+
 		readLine = readLine[:len(readLine)-1]
 
 		if readLine == "exit 0" {
@@ -46,15 +43,30 @@ func main() {
 		}
 		if command == "type" {
 			args := strings.Split(readLine, " ")[1]
+
 			if isBuiltIN(args) {
 				fmt.Printf("%s is a shell builtin\n", args)
 			} else {
+				PATH := strings.Split(os.Getenv("PATH"), ":")
+				for _, path := range PATH {
+					contents, err := os.ReadDir(path)
+					if err != nil {
+						return
+					}
+					for _, file := range contents {
+						if !file.IsDir() || file.Name() == args {
+							fmt.Printf("%s is %s", args, path)
+							continue
+						}
+					}
+
+				}
 				fmt.Printf("%s: not found\n", args)
 			}
 
 			continue
 		}
-		invalidCommand(command)
+		fmt.Printf("%s: command not found\n", command)
 	}
 
 }
