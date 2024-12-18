@@ -48,6 +48,7 @@ func main() {
 				fmt.Printf("%s is a shell builtin\n", args)
 			} else {
 				PATH := strings.Split(os.Getenv("PATH"), ":")
+				fmt.Println(PATH)
 				for _, path := range PATH {
 					contents, err := os.ReadDir(path)
 					if err != nil {
