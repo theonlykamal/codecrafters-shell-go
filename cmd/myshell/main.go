@@ -10,25 +10,48 @@ import (
 // Ensures gofmt doesn't remove the "fmt" import in stage 1 (feel free to remove this!)
 var _ = fmt.Fprint
 
+func isBuiltIN(command string) bool {
+	if command == "echo" || command == "exit" || command == "type" {
+		return true
+	}
+	return false
+
+}
+
+func invalidCommand(command string) {
+	fmt.Printf("%s: command not found\n", command)
+}
+
 func main() {
 
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
 
 		// Wait for user input
-		command, err := bufio.NewReader(os.Stdin).ReadString('\n')
+		readLine, err := bufio.NewReader(os.Stdin).ReadString('\n')
 		if err != nil {
 			return
 		}
-		if command == "exit 0\n" {
+		if readLine == "exit 0\n" {
 			os.Exit(0)
 		}
-		if strings.Split(command, " ")[0] == "echo" {
-			str := command[5 : len(command)-1]
+		command := strings.Split(readLine, " ")[0]
+		if command == "echo" {
+			str := readLine[5 : len(readLine)-1]
 			fmt.Println(str)
 			continue
 		}
-		fmt.Printf("%s: command not found\n", command[:len(command)-1])
+		if command == "type" {
+			args := strings.Split(readLine, " ")[1]
+			if isBuiltIN(args) {
+				fmt.Printf("%s is a shell builtin\n", args)
+			} else {
+				invalidCommand(args)
+			}
+
+			continue
+		}
+		invalidCommand(command)
 	}
 
 }
