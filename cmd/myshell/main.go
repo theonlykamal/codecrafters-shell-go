@@ -32,18 +32,20 @@ func main() {
 		if err != nil {
 			return
 		}
-		if readLine == "exit 0\n" {
+		readLine = readLine[:len(readLine)-1]
+
+		if readLine == "exit 0" {
 			os.Exit(0)
 		}
 		command := strings.Split(readLine, " ")[0]
+
 		if command == "echo" {
-			str := readLine[5 : len(readLine)-1]
+			str := readLine[5:]
 			fmt.Println(str)
 			continue
 		}
 		if command == "type" {
 			args := strings.Split(readLine, " ")[1]
-			args = args[:len(args)-1]
 			if isBuiltIN(args) {
 				fmt.Printf("%s is a shell builtin\n", args)
 			} else {
