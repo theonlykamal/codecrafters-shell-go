@@ -47,25 +47,33 @@ func main() {
 			if isBuiltIN(args) {
 				fmt.Printf("%s is a shell builtin\n", args)
 			} else {
+				//Not a Built In coommand
 				PATH := strings.Split(os.Getenv("PATH"), ":")
+				found := false
+				//All paths
 				for _, path := range PATH {
 					contents, err := os.ReadDir(path)
 					if err != nil {
 						return
 					}
+
+					//All files
 					for _, file := range contents {
 						if !file.IsDir() && file.Name() == args {
 							fmt.Printf("%s is %s/%s\n", args, path, args)
-							goto found
+							found = true
+							break
 						}
 					}
-
+					if found {
+						break
+					}
 				}
+				continue
 
 			}
-
 			fmt.Printf("%s: not found\n", args)
-		found:
+
 			continue
 		}
 		fmt.Printf("%s: command not found\n", command)
