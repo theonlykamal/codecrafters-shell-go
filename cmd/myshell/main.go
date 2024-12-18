@@ -19,7 +19,7 @@ func main() {
 		if err != nil {
 			return
 		}
-		fmt.Printf("%s: command not found", command[:len(command)-1])
+		fmt.Printf("%s: command not found\n", command[:len(command)-1])
 	}
 
 }
