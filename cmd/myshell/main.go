@@ -10,12 +10,33 @@ import (
 // Ensures gofmt doesn't remove the "fmt" import in stage 1 (feel free to remove this!)
 var _ = fmt.Fprint
 
-func isBuiltIN(command string) bool {
+func IsBuiltIN(command string) bool {
 	if command == "echo" || command == "exit" || command == "type" {
 		return true
 	}
 	return false
 
+}
+
+func WhereIs(args string, envVarString string) bool {
+	//Not a Built In coommand
+	PATH := strings.Split(os.Getenv(envVarString), ":")
+	//All paths
+	for _, path := range PATH {
+		contents, err := os.ReadDir(path)
+		if err != nil {
+			panic(err)
+		}
+
+		//All files
+		for _, file := range contents {
+			if !file.IsDir() && file.Name() == args {
+				fmt.Printf("%s is %s/%s\n", args, path, args)
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func main() {
@@ -44,36 +65,13 @@ func main() {
 		if command == "type" {
 			args := strings.Split(readLine, " ")[1]
 
-			if isBuiltIN(args) {
+			if IsBuiltIN(args) {
 				fmt.Printf("%s is a shell builtin\n", args)
 			} else {
-				//Not a Built In coommand
-				PATH := strings.Split(os.Getenv("PATH"), ":")
-				found := false
-				//All paths
-				for _, path := range PATH {
-					contents, err := os.ReadDir(path)
-					if err != nil {
-						return
-					}
-
-					//All files
-					for _, file := range contents {
-						if !file.IsDir() && file.Name() == args {
-							fmt.Printf("%s is %s/%s\n", args, path, args)
-							found = true
-							break
-						}
-					}
-					if found {
-						break
-					}
+				if !WhereIs(args, "PATH") {
+					fmt.Printf("%s: not found\n", args)
 				}
-				continue
-
 			}
-			fmt.Printf("%s: not found\n", args)
-
 			continue
 		}
 		fmt.Printf("%s: command not found\n", command)
