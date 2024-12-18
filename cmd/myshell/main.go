@@ -26,6 +26,7 @@ func main() {
 		if strings.Split(command, " ")[0] == "echo" {
 			str := command[5 : len(command)-1]
 			fmt.Println(str)
+			continue
 		}
 		fmt.Printf("%s: command not found\n", command[:len(command)-1])
 	}
