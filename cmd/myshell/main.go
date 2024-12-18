@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -34,6 +35,17 @@ func WhereIs(args string, envVarString string) bool {
 		}
 	}
 	return false
+}
+
+func ExecCommand(command string, args ...string) error {
+	cmd := exec.Command(command, args...)
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(output)
+	return nil
 }
 
 func main() {
@@ -71,6 +83,9 @@ func main() {
 			}
 			continue
 		}
+
+		ExecCommand(command, readLine[1:])
+
 		fmt.Printf("%s: command not found\n", command)
 	}
 
