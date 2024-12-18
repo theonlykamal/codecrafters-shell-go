@@ -19,7 +19,7 @@ func main() {
 		if err != nil {
 			return
 		}
-		if command == "exit 0" {
+		if command == "exit 0\n" {
 			os.Exit(0)
 		}
 		fmt.Printf("%s: command not found\n", command[:len(command)-1])
