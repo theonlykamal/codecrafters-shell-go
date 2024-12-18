@@ -57,11 +57,13 @@ func main() {
 					for _, file := range contents {
 						if !file.IsDir() || file.Name() == args {
 							fmt.Printf("%s is %s", args, path)
-							continue
+							break
 						}
 					}
+					break
 
 				}
+				continue
 				fmt.Printf("%s: not found\n", args)
 			}
 
