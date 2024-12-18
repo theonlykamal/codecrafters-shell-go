@@ -50,7 +50,7 @@ func main() {
 			} else {
 				PATH := strings.Split(os.Getenv("PATH"), ":")
 				slices.Reverse(PATH)
-				fmt.Println(os.Getenv("PATH"))
+				//fmt.Println(os.Getenv("PATH"))
 				for _, path := range PATH {
 					contents, err := os.ReadDir(path)
 					if err != nil {
