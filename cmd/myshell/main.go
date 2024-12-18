@@ -37,15 +37,15 @@ func WhereIs(args string, envVarString string) bool {
 	return false
 }
 
-func ExecCommand(command string, args ...string) error {
+func ExecCommand(command string, args ...string) (bool, error) {
 	cmd := exec.Command(command, args...)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		return err
+		fmt.Println(err)
+		return false, err
 	}
-
 	fmt.Println(string(output))
-	return nil
+	return true, err
 }
 
 func main() {
@@ -84,7 +84,10 @@ func main() {
 			continue
 		}
 
-		ExecCommand(command, readLine[1:])
+		success, _ := ExecCommand(command, readLine[1:])
+		if success {
+			continue
+		}
 
 		fmt.Printf("%s: command not found\n", command)
 	}
