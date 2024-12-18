@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 )
 
@@ -48,6 +49,7 @@ func main() {
 				fmt.Printf("%s is a shell builtin\n", args)
 			} else {
 				PATH := strings.Split(os.Getenv("PATH"), ":")
+				slices.Reverse(PATH)
 				fmt.Println(os.Getenv("PATH"))
 				for _, path := range PATH {
 					contents, err := os.ReadDir(path)
