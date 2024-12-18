@@ -59,6 +59,7 @@ func main() {
 					for _, file := range contents {
 						if !file.IsDir() || file.Name() == args {
 							fmt.Printf("%s is %s/%s\n", args, path, args)
+							fmt.Print(contents)
 							break
 						}
 					}
