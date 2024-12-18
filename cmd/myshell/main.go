@@ -56,17 +56,16 @@ func main() {
 					for _, file := range contents {
 						if !file.IsDir() && file.Name() == args {
 							fmt.Printf("%s is %s/%s\n", args, path, args)
-							break
+							goto found
 						}
 					}
-					break
 
 				}
-				continue
 
 			}
-			fmt.Printf("%s: not found\n", args)
 
+			fmt.Printf("%s: not found\n", args)
+		found:
 			continue
 		}
 		fmt.Printf("%s: command not found\n", command)
