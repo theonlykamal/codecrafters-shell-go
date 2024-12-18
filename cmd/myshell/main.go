@@ -44,7 +44,7 @@ func ExecCommand(command string, args ...string) error {
 		return err
 	}
 
-	fmt.Println(output)
+	fmt.Println(string(output))
 	return nil
 }
 
