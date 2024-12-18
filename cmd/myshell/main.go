@@ -23,10 +23,7 @@ func WhereIs(args string, envVarString string) bool {
 	PATH := strings.Split(os.Getenv(envVarString), ":")
 	//All paths
 	for _, path := range PATH {
-		contents, err := os.ReadDir(path)
-		if err != nil {
-			panic(err)
-		}
+		contents, _ := os.ReadDir(path)
 
 		//All files
 		for _, file := range contents {
